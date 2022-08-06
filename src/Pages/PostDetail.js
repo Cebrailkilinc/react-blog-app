@@ -16,7 +16,6 @@ function Post() {
     let postService = new PostService()
     postService.getPostDetail(id).then(result => setPostDetail(result.data))
     console.log(postDetail)
-
   }, [])
 
 
@@ -36,7 +35,7 @@ function Post() {
             <img className='mb-5' src='https://picsum.photos/200' />
             <p>{postDetail.body + postDetail.body + postDetail.body + postDetail.body}</p>
           </div>
-          <div className='p-5'>
+          <div className='p-5 bg-yellow-100'>
             <h1 className='font-bold text-3xl' >Comments</h1>
             <div className='flex items-center gap-x-2 mt-5'>
               <img className='w-6 h-6 rounded-full cursor-pointer hover:opacity-80' src='https://picsum.photos/200' />
@@ -45,7 +44,7 @@ function Post() {
             <p className='text-xs mt-3 px-3'>quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae ut ut quas totam nostrum rerum est autem sunt rem eveniet architectoquia et suscipit suscipit recusandae consequuntur</p>
           </div>
           
-          <div className='mt-10 bg-slate-100'>
+          <div className=' bg-slate-100'>
             <form action="" className="w-full p-5 sm:p-10">
               <div className="mb-2">
                 <label htmlFor="comment" className="text-lg text-gray-600">Add a comment</label>

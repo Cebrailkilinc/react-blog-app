@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "./index.css";
-import 'semantic-ui-css/semantic.min.css';
+
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
-root.render(
+root.render(    
     <App />
 );
 

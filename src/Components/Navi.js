@@ -30,9 +30,6 @@ function Navi() {
         setIsAuthenticated(!isAuthenticated)
     }
 
-           
-
-
     return (
         <div className='bg-white border-b shadow sticky top-0 z-50 '>
             <div className=" flex justify-between items-center mx-auto max-w-6xl h-16 z-50 font-cinzel">
@@ -43,10 +40,10 @@ function Navi() {
                     <ul className='flex items-center cursor-pointer'>
                         <li className='p-4 hover:text-indigo-300'>About</li>
                         <li className='p-4 hover:text-indigo-300'>Home</li>
-                        <li className='p-4 hover:text-indigo-300'>Feed</li>
+                        <Link to={"/layout"}><li className='p-4 hover:text-indigo-300'>Feed</li></Link>
                     </ul>
                 </div>
-                <div className='hidden sm:block'>
+                <div className='hidden sm:block p-4'>
                     {isAuthenticated ? <SignedIn/> : <SignedOut/>}
                 </div>
 
