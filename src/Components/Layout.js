@@ -41,8 +41,6 @@ function Layout() {
 
     const [allPost, setAllPost] = useState([])
 
-
-
     return (
         <>
             <div onClick={() => { setDropDownDisplay("hidden") }} className='overflow-hidden scrollbar-hide ' >
