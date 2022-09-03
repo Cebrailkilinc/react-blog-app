@@ -1,7 +1,8 @@
-import React from 'react'
+import { useEffect } from 'react'
 import SignedOut from './SignedIOut'
 import SignedIn from './SignedIn'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import axios from 'axios'
 
 //react icons
 import { HiOutlineMenu } from "react-icons/hi"
@@ -15,20 +16,20 @@ import BlogContext from '../Context/BlogContext'
 
 function Navi() {
     const { posts,
-            isAuthenticated,
-            setIsAuthenticated, } = useContext(BlogContext)
+        isAuthenticated,
+        setIsAuthenticated,
+        jwt, allUsers,
+        setAllUsers, setCurrentUser,currentuser
+    } = useContext(BlogContext)
 
     const [isOpenSideMenu, setIsOpenSideMenu] = useState(false)
-
-
+ 
+    //Open_Sidebar_Menu
     const handleSideMenu = () => {
-        setIsOpenSideMenu(!isOpenSideMenu)
-    }
-    
+        setIsOpenSideMenu(!isOpenSideMenu)       
+    }    
 
-    const handleAuthenticated =()=>{
-        setIsAuthenticated(!isAuthenticated)
-    }
+   
 
     return (
         <div className='bg-white border-b shadow sticky top-0 z-50 '>
@@ -38,13 +39,12 @@ function Navi() {
                 </div>
                 <div className='hidden sm:block '>
                     <ul className='flex items-center cursor-pointer'>
-                        <li className='p-4 hover:text-indigo-300'>About</li>
-                        <li className='p-4 hover:text-indigo-300'>Home</li>
-                        <Link to={"/layout"}><li className='p-4 hover:text-indigo-300'>Feed</li></Link>
+                        <li onClick={()=>{localStorage.clear("tokenKey")}} className='p-4 hover:text-indigo-300'>About</li>
+                        <Link to={"/"}><li className='p-4 hover:text-indigo-300'>Home</li></Link>
                     </ul>
                 </div>
-                <div className='hidden sm:block p-4'>
-                    {isAuthenticated ? <SignedIn/> : <SignedOut/>}
+                <div className='hidden sm:block '>
+                  {localStorage.getItem("currentUserName")  ? <SignedIn /> : <SignedOut/>} 
                 </div>
 
                 {/*Mobile Menu */}
@@ -57,7 +57,6 @@ function Navi() {
                     <ul className='mt-10 uppercase text-center font-bold cursor-pointer'>
                         <li className='p-4'>About</li>
                         <li className='p-4'>Home</li>
-                        <li className='p-4'>Feed</li>
                         <li className='p-4'>Feed</li>
                     </ul>
                 </div>

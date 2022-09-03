@@ -3,21 +3,47 @@ import { useContext } from 'react'
 import BlogContext from '../Context/BlogContext'
 import { useParams } from 'react-router-dom'
 import PostService from '../Storage/api'
+import axios from 'axios'
 
 
 function Post() {
 
-  const { posts } = useContext(BlogContext)
+  const { posts, postDetail, setPostDetail, currentuser } = useContext(BlogContext)
+
   const { id } = useParams()
 
-  const [postDetail, setPostDetail] = useState({})
+  const [postComments, setPostComments] = useState("")
 
-  useEffect(() => {
-    let postService = new PostService()
-    postService.getPostDetail(id).then(result => setPostDetail(result.data))
-    console.log(postDetail)
-  }, [])
+  const config = {
+    headers: { Authorization: `Bearer ${localStorage.getItem("tokenKey")}` }
+  };
 
+  const getPostDetail = () => {
+    axios.get(
+      'http://localhost:5000/api/posts/' + id,
+      config
+    ).then(result => {
+      setPostDetail(result.data)
+    })
+  }
+  getPostDetail()
+
+
+  const data = {
+    commentBody: postComments
+  }
+
+  const addCommentToPost = (e) => {
+    e.preventDefault()
+    axios.post(
+      'http://localhost:5000/api/comments/' + id,
+      data,
+      config
+    ).then(result => {
+      console.log(result.data)
+    })
+    setPostComments("")
+  }
 
   return (
     <div className='pb-10'>
@@ -31,32 +57,41 @@ function Post() {
             <h1>20/10/2022</h1>
           </div>
           <div className='mt-5 border-b pb-10 p-5'>
-            <h1 className='mb-5 font-semibold'>{postDetail.title}</h1>
+            <h1 className='mb-5 font-semibold'>{postDetail?.postTitle}</h1>
             <img className='mb-5' src='https://picsum.photos/200' />
-            <p>{postDetail.body + postDetail.body + postDetail.body + postDetail.body}</p>
+            <p>{postDetail.postBody}</p>
           </div>
           <div className='p-5 bg-yellow-100'>
             <h1 className='font-bold text-3xl' >Comments</h1>
-            <div className='flex items-center gap-x-2 mt-5'>
-              <img className='w-6 h-6 rounded-full cursor-pointer hover:opacity-80' src='https://picsum.photos/200' />
-              <span className='text-xs font-extrabold cursor-pointer hover:opacity-80'>Cebrail kılınç</span>
-            </div>
-            <p className='text-xs mt-3 px-3'>quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae ut ut quas totam nostrum rerum est autem sunt rem eveniet architectoquia et suscipit suscipit recusandae consequuntur</p>
+            {
+              postDetail.comments?.map((item, i) => {
+                return (
+                  <div key={i}>
+                    <div className='flex items-center gap-x-2 mt-5'>
+                      <img className='w-6 h-6 rounded-full cursor-pointer hover:opacity-80' src='https://picsum.photos/200' />
+                      <span className='text-xs font-extrabold cursor-pointer hover:opacity-80'>{localStorage.getItem("currentUserName")}</span>
+                    </div>
+                    <p className='text-xs mt-3 px-3'>{item.commentBody}</p>
+                  </div>
+                )
+              })
+            }
           </div>
-          
           <div className=' bg-slate-100'>
             <form action="" className="w-full p-5 sm:p-10">
               <div className="mb-2">
-                <label htmlFor="comment" className="text-lg text-gray-600">Add a comment</label>
+                <label htmlFor="comment" className="text-lg text-gray-600">Add a comment:</label>
                 <textarea
-                  className="w-full h-20 p-2 resize-none border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
+                  value={postComments}
+                  onChange={(e) => { setPostComments(e.target.value) }}
+                  className="w-full h-32 p-2 text-xs resize-none border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
                   name="comment"
                   placeholder=""></textarea>
               </div>
               <div>
-                <button className="px-2 py-1 text-sm text-blue-100 bg-blue-600 rounded">
+                <button onClick={addCommentToPost} className="px-2 py-1 text-sm text-blue-100 bg-blue-600 rounded">
                   Comment
-                </button>              
+                </button>
               </div>
             </form>
           </div>
