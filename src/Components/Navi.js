@@ -7,11 +7,13 @@ import axios from 'axios'
 //react icons
 import { HiOutlineMenu } from "react-icons/hi"
 import { AiOutlineClose } from "react-icons/ai"
-import { useState } from 'react'
+import { useState } from 'react';
+
 
 //Context
 import { useContext } from 'react';
 import BlogContext from '../Context/BlogContext'
+
 
 
 function Navi() {
@@ -19,7 +21,7 @@ function Navi() {
         isAuthenticated,
         setIsAuthenticated,
         jwt, allUsers,
-        setAllUsers, setCurrentUser,currentuser
+        setAllUsers, setCurrentUser,currentuser,handleDropDownDisplay
     } = useContext(BlogContext)
 
     const [isOpenSideMenu, setIsOpenSideMenu] = useState(false)
@@ -32,7 +34,8 @@ function Navi() {
    
 
     return (
-        <div className='bg-white border-b shadow sticky top-0 z-50 '>
+
+        <div  className='bg-white border-b shadow sticky top-0 z-50  '>            
             <div className=" flex justify-between items-center mx-auto max-w-6xl h-16 z-50 font-cinzel">
                 <div className=''>
                     <Link to="/"><h1 className='p-4 hover:text-indigo-300 cursor-pointer'>Blog</h1></Link>

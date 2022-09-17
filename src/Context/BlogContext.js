@@ -3,6 +3,7 @@ import { useState } from "react";
 import posts from "../Storage/posts"
 import axios from "axios";
 import { useEffect } from "react";
+import {toast } from 'react-toastify';
 
 
 
@@ -15,6 +16,9 @@ export const BlogProvider = ({ children }) => {
 
     //Dropdown_Menu_Open
     const [dropDownDisplay, setDropDownDisplay] = useState("hidden")
+    const handleDropDownDisplay = () => {
+        setDropDownDisplay(dropDownDisplay === "hidden" ? setDropDownDisplay("") : "hidden")
+    }
 
     //All_Posts
     const [allPost, setAllPost] = useState([])
@@ -31,12 +35,20 @@ export const BlogProvider = ({ children }) => {
     //Post_Detail
     const [postDetail, setPostDetail] = useState({})
 
-    //Post_Comments
-    
+    //Post_Properties
+    const [postImage, setPostImage] = useState("")
+    const [postBody, setPostBody] = useState("")
+    const [postTittle, setPostTittle] = useState("")
+    const [postDescription, setPostDescription] = useState("")
 
-    const handleDropDownDisplay = () => {
-        setDropDownDisplay(dropDownDisplay === "hidden" ? "" : "hidden")
-    }
+    //Toast_Controll
+    const [toastControll, setToastControll] = useState(false)
+    const [toastMessage, setToastMessage] = useState(false)
+
+    //Loading_Controll
+    const [loading, setLoading] = useState(false)
+    const [loadingMessage, setLoadingMessage] = useState("")
+
    
     const values = {
         posts,
@@ -55,6 +67,22 @@ export const BlogProvider = ({ children }) => {
         setAllPost,
         postDetail,
         setPostDetail,
+        postImage, 
+        setPostImage,
+        postBody, 
+        setPostBody,
+        postTittle, 
+        setPostTittle,
+        postDescription, 
+        setPostDescription,
+        toastControll,
+        setToastControll,
+        toastMessage,
+        setToastMessage,
+        loadingMessage,
+        setLoadingMessage,
+        loading,
+        setLoading
     }
 
 

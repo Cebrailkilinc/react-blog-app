@@ -32,7 +32,6 @@ function Post() {
   const data = {
     commentBody: postComments
   }
-
   const addCommentToPost = (e) => {
     e.preventDefault()
     axios.post(
@@ -52,13 +51,13 @@ function Post() {
           <div className='flex items-center justify-between gap-x-2 p-5 font-cinzel border-b'>
             <div className='flex items-center gap-x-2'>
               <img className='w-9 h-9 rounded-full cursor-pointer hover:opacity-80' src='https://picsum.photos/200' />
-              <span className='text-xs font-extrabold cursor-pointer hover:opacity-80'>Cebrail kılınç</span>
+              <span className='text-xs font-extrabold cursor-pointer hover:opacity-80'>deneme</span>
             </div>
             <h1>20/10/2022</h1>
           </div>
-          <div className='mt-5 border-b pb-10 p-5'>
+          <div className='mt-5 border-b pb-10 p-5 text-sm'>
             <h1 className='mb-5 font-semibold'>{postDetail?.postTitle}</h1>
-            <img className='mb-5' src='https://picsum.photos/200' />
+            <img className='mb-5' src={postDetail?.postPhoto} />
             <p>{postDetail.postBody}</p>
           </div>
           <div className='p-5 bg-yellow-100'>
@@ -66,9 +65,9 @@ function Post() {
             {
               postDetail.comments?.map((item, i) => {
                 return (
-                  <div key={i}>
-                    <div className='flex items-center gap-x-2 mt-5'>
-                      <img className='w-6 h-6 rounded-full cursor-pointer hover:opacity-80' src='https://picsum.photos/200' />
+                  <div className='px-5' key={i}>
+                    <div className='flex items-center gap-x-2 mt-5 '>
+                      <img className='w-6 h-6 rounded-full cursor-pointer hover:opacity-80 ' src='https://picsum.photos/200' />
                       <span className='text-xs font-extrabold cursor-pointer hover:opacity-80'>{localStorage.getItem("currentUserName")}</span>
                     </div>
                     <p className='text-xs mt-3 px-3'>{item.commentBody}</p>
@@ -84,7 +83,7 @@ function Post() {
                 <textarea
                   value={postComments}
                   onChange={(e) => { setPostComments(e.target.value) }}
-                  className="w-full h-32 p-2 text-xs resize-none border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
+                  className="w-full h-32 p-2 mt-2 text-xs resize-none border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
                   name="comment"
                   placeholder=""></textarea>
               </div>
@@ -97,9 +96,8 @@ function Post() {
           </div>
         </div>
       </div>
-
     </div>
   )
 }
 
-export default Post
+export default Post 

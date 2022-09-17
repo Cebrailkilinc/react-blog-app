@@ -1,10 +1,10 @@
 import React from 'react'
 
 //Icons
-import { BsHeart, BsFillShareFill, BsFillHeartFill  } from "react-icons/bs"
+import { BsHeart, BsFillShareFill, BsFillHeartFill } from "react-icons/bs"
 import { BiDotsVerticalRounded } from "react-icons/bi"
 import { FaRegComment } from "react-icons/fa"
-import {AiOutlineHeart} from "react-icons/ai"
+import { AiOutlineHeart } from "react-icons/ai"
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { number } from 'prop-types'
@@ -15,15 +15,17 @@ function Card({ username, head, description, id }) {
     const [clickcLikeButton, setClickLikeButton] = useState(true)
     const [numberOfLike, setNumberOfLike] = useState(1)
 
-    const handleLikeButton=()=>{
+    const handleLikeButton = () => {
         setClickLikeButton(!clickcLikeButton)
-        
+
         if (clickcLikeButton == true) {
             setNumberOfLike(numberOfLike + 1)
-        }else{
+        } else {
             setNumberOfLike(numberOfLike - 1)
         }
     }
+    
+
 
     return (
         <div className='w-[300px] sm:w-72 h-96 mt-5 overflow-hidden  border shadow-md shadow-indigo-300'>
@@ -34,13 +36,12 @@ function Card({ username, head, description, id }) {
                 <div className='flex items-center justify-between mb-4 font-thin'>
                     <span className='text-lg cursor-pointer hover:opacity-80 h-8 w-full text-center overflow-hidden'>{head}</span>
                 </div>
-                <Link to={`/post/${id}`}><p className='cursor-pointer   hover:opacity-80 font-thin text-xs' >{description}</p></Link>
+                <Link to={ localStorage.getItem("nickname") ? `/post/${id}`: "/login"}><p className='cursor-pointer   hover:opacity-80 font-thin text-xs' >{description}</p></Link>
             </div>
             <div className='p-2 bottom-0 flex items-center justify-between'>
                 <div className='flex items-center gap-x-4'>
-                   {clickcLikeButton ? <BsHeart onClick={handleLikeButton} className='cursor-pointer' /> : <BsFillHeartFill color='red' onClick={handleLikeButton} className='cursor-pointer' /> }
+                    {clickcLikeButton ? <BsHeart onClick={handleLikeButton} className='cursor-pointer' /> : <BsFillHeartFill color='red' onClick={handleLikeButton} className='cursor-pointer' />}
                     <span className='text-sm font-semibold' >{numberOfLike}</span>
-
                 </div>
                 <div>
                     <BsFillShareFill className='cursor-pointer ' />

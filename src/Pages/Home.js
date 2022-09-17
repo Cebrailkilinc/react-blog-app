@@ -11,6 +11,9 @@ import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useCallback } from 'react'
 import Loading from '../Components/Loading'
+import Toast from '../Components/Toast'
+import Footer from '../Components/Footer';
+import Marquees from '../Components/Marquees'
 
 
 function Layout() {
@@ -24,46 +27,69 @@ function Layout() {
         allUsers,
         setAllUsers,
         setCurrentUser,
-        allPost, setAllPost
+        allPost, setAllPost,
+        setLoadingMessage,
+        loadingMessage,     
+        loading,
+        setLoading
     } = useContext(BlogContext)
 
 
     let navigate = useNavigate();
 
-    const [loading, setLoading] = useState(false)
+    
+    const [loggedIn, setLoggedIn] = useState("")
 
 
+    const config = {
+        headers: { Authorization: `Bearer ${localStorage.getItem("tokenKey")}` }
+    };
+  
 
     //Loading_Page
     useEffect(() => {
         setLoading(true)
+        setLoadingMessage("Yükleniyor")
         setTimeout(setLoading, 500)
     }, [])
 
     //Call_All_Post
     useEffect(() => {
-        axios.get(
-            'http://localhost:5000/api/home'
-        ).then(result => {
-            setAllPost(result.data)
-        })
+        if (!localStorage.getItem("currentUserName")) {
+            axios.get(
+                'http://localhost:5000/api/posts/home'
+            ).then(result => {
+                setAllPost(result.data)
+                console.log(result.data)
+            })
+        }
+        else{
+            axios.get(
+                'http://localhost:5000/api/posts/all',config
+            ).then(result => {
+                setAllPost(result.data)
+                console.log(result.data)
+            })
+        }
+    
     }, [])
 
-
     return (
-        <>{loading ? <Loading /> :
-            <div onClick={() => { setDropDownDisplay("hidden") }} className='overflow-hidden scrollbar-hide '>
-                <Slider />
-
-                <div className='max-w-5xl justify-center mx-auto  grid grid-cols-1 sm:grid-cols-3 place-items-center '>
-                    {
-                        allPost?.map((ite, i) => {
-                            return (<div key={i} ><Card id={ite.id} username={ite.username} head={ite.postTitle} description={ite.postBody} /></div>)
-                        })
-                    }
+        <>
+            {loading ? <Loading /> : null}
+                <div onClick={() => { setDropDownDisplay("hidden") }} className='overflow-hidden scrollbar-hide '>
+                    <Slider />
+                    <Marquees/>
+                    <div className='max-w-5xl justify-center mx-auto  grid grid-cols-1 sm:grid-cols-3 place-items-center '>
+                        {
+                            allPost?.map((ite, i) => {
+                                return (<div key={i} ><Card id={ite.id} username={ite.username} head={ite.postTitle} description={ite.postBody} /></div>)
+                            })
+                        }
+                    </div>
                 </div>
-            </div>
-        }
+            
+            
         </>
     )
 }

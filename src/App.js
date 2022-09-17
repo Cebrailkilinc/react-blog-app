@@ -9,24 +9,24 @@ import UserPage from './Pages/UserPage';
 import axios from 'axios';
 import Home from './Pages/Home';
 import Loading from './Components/Loading';
+import Toast from './Components/Toast';
+import Footer from './Components/Footer';
 
 
 function App() {
 
-
-
-  return (
-   
+  return (   
       <BrowserRouter>
         <BlogProvider>        
-          <Navi />
+          <Navi/>          
           <Routes>
             <Route exact path="/*" element={<Home/>}/>          
             <Route path="/login" element={<Login />}/>
             <Route path="/register" element={<Register />} />
             <Route path="/post/:id" element={<PostDetail />} />
             <Route path="/profile/:user_name" element={<UserPage/>} />            
-          </Routes>
+          </Routes>   
+          <Footer/>      
         </BlogProvider>
       </BrowserRouter>
 
