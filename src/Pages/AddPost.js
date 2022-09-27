@@ -1,10 +1,6 @@
-import { useEffect } from 'react';
-import { useState } from 'react'
-import { TiTickOutline } from "react-icons/ti"
 import axios from 'axios';
 import BlogContext from '../Context/BlogContext'
 import { useContext } from 'react'
-import Toast from '../Components/Toast';
 
 function AddPost(props) {
 
@@ -18,11 +14,6 @@ function AddPost(props) {
     } = useContext(BlogContext)
 
 
-
-
-
-
-
     // Add_Picture
     const handleImageSelectLocal = (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -33,7 +24,6 @@ function AddPost(props) {
             reader.readAsDataURL(e.target.files[0])
         }
     }
-
 
     const data = {
         postTitle: postTittle,
@@ -69,7 +59,6 @@ function AddPost(props) {
 
     return (
         <>
-
             <div className='fixed inset-0 bg-black bg-opacity-70   flex items-center justify-center  z-50' >
                 <div className='bg-sky-200  h-[500] w-[700px] rounded-xl '>
                     <form onSubmit={handleAddNewPost} className='p-5' >

@@ -31,15 +31,10 @@ function Layout() {
         setLoadingMessage,
         loadingMessage,     
         loading,
-        setLoading
+        setLoading,
+        setUserId,
+        userId
     } = useContext(BlogContext)
-
-
-    let navigate = useNavigate();
-
-    
-    const [loggedIn, setLoggedIn] = useState("")
-
 
     const config = {
         headers: { Authorization: `Bearer ${localStorage.getItem("tokenKey")}` }
@@ -57,22 +52,21 @@ function Layout() {
     useEffect(() => {
         if (!localStorage.getItem("currentUserName")) {
             axios.get(
-                'http://localhost:5000/api/posts/home'
+                'http://localhost:5000/api/home'
             ).then(result => {
-                setAllPost(result.data)
-                console.log(result.data)
+                setAllPost(result.data)            
             })
         }
         else{
             axios.get(
                 'http://localhost:5000/api/posts/all',config
             ).then(result => {
-                setAllPost(result.data)
-                console.log(result.data)
-            })
-        }
-    
+                setAllPost(result.data)         
+                console.log(result.data)                           
+            }).catch(err =>console.log(err))
+        }    
     }, [])
+
 
     return (
         <>
@@ -83,14 +77,13 @@ function Layout() {
                     <div className='max-w-5xl justify-center mx-auto  grid grid-cols-1 sm:grid-cols-3 place-items-center '>
                         {
                             allPost?.map((ite, i) => {
-                                return (<div key={i} ><Card id={ite.id} username={ite.username} head={ite.postTitle} description={ite.postBody} /></div>)
+                                return (<div key={i} ><Card postId={ite.id}  firstName={ite.firstName} lastName={ite.lastName} postCreateTime={ite.postCreateTime}  username={ite.username} head={ite.postTitle} description={ite.postBody} /></div>)
                             })
                         }
                     </div>
-                </div>
-            
-            
-        </>
+                </div>         
+        </>    
+       
     )
 }
 

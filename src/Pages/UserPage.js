@@ -13,6 +13,7 @@ import EditPost from './EditPost'
 import Loading from '../Components/Loading'
 import { Link } from 'react-router-dom'
 import Toast from '../Components/Toast'
+import UserSetting from './UserSetting'
 
 
 function UserPage() {
@@ -28,6 +29,7 @@ function UserPage() {
 
     const [openAddPostModal, setAddPostModal] = useState(false)
     const [openEditPostModal, setOpenEditPostModal] = useState(false)
+    const [openSettingModal, setOpenSettingModal] = useState(false)
     const [postId, setPostId] = useState("")
     const [loading, setLoading] = useState(false)
 
@@ -82,6 +84,7 @@ function UserPage() {
         ).then(result => {
             const newUser = result.data;
             setCurrentUser(newUser)
+            
         })
     }
     getCurrentUser2()

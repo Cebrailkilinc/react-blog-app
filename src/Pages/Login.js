@@ -35,8 +35,6 @@ function Login() {
     const [password, setPassword] = useState("")
   
 
-
-
     const getTokenData = () => {
         localStorage.setItem("nickname", nickName)
         let authService = new AuthService()
@@ -61,6 +59,7 @@ function Login() {
             setCurrentUser(newUser)
             console.log(result.data)
             localStorage.setItem("currentUserName", result.data.firstName)
+            localStorage.setItem("currentUserId", result.data.id)
             navigate("/")
         })
     }

@@ -11,6 +11,8 @@ import Home from './Pages/Home';
 import Loading from './Components/Loading';
 import Toast from './Components/Toast';
 import Footer from './Components/Footer';
+import VisitPage from './Pages/VisitPage';
+import UserSetting from './Pages/UserSetting';
 
 
 function App() {
@@ -24,7 +26,9 @@ function App() {
             <Route path="/login" element={<Login />}/>
             <Route path="/register" element={<Register />} />
             <Route path="/post/:id" element={<PostDetail />} />
-            <Route path="/profile/:user_name" element={<UserPage/>} />            
+            <Route path="/visit/:userId" element={<VisitPage/>} /> 
+            <Route path="/profile/:user_name" element={<UserPage/>} /> 
+            <Route path="/setting/:userId" element={<UserSetting/>}/>                     
           </Routes>   
           <Footer/>      
         </BlogProvider>

@@ -47,7 +47,7 @@ function Navi() {
                     </ul>
                 </div>
                 <div className='hidden sm:block '>
-                  {localStorage.getItem("currentUserName")  ? <SignedIn /> : <SignedOut/>} 
+                  {localStorage.getItem("currentUserName") ? <SignedIn /> : <SignedOut/>} 
                 </div>
 
                 {/*Mobile Menu */}

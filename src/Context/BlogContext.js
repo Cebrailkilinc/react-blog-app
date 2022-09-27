@@ -33,7 +33,7 @@ export const BlogProvider = ({ children }) => {
     const [currentuser, setCurrentUser] = useState("")
 
     //Post_Detail
-    const [postDetail, setPostDetail] = useState({})
+    const [postDetail, setPostDetail] = useState("")
 
     //Post_Properties
     const [postImage, setPostImage] = useState("")
@@ -49,7 +49,12 @@ export const BlogProvider = ({ children }) => {
     const [loading, setLoading] = useState(false)
     const [loadingMessage, setLoadingMessage] = useState("")
 
-   
+    //Like Controll
+    const [numberOfLike, setNumberOfLike] = useState(1)
+
+    //User Id controll
+    const [userId, setUserId] = useState("")
+
     const values = {
         posts,
         isAuthenticated,
@@ -82,7 +87,12 @@ export const BlogProvider = ({ children }) => {
         loadingMessage,
         setLoadingMessage,
         loading,
-        setLoading
+        setLoading,
+        numberOfLike,
+        setNumberOfLike,
+        userId,
+        setUserId
+       
     }
 
 

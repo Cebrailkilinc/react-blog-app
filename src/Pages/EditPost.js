@@ -53,13 +53,11 @@ function EditPost(props) {
             'http://localhost:5000/api/posts/' + props.postId,
             data, config
         ).then(result => {
-             console.log(result)
+             console.log(result.data)
              setToastMessage("Edit succsesfull")
              setToastControll(true)
-
          })
     }
-
 
     const handleImageSelectLocal = (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -78,7 +76,7 @@ function EditPost(props) {
                 <div className='bg-sky-200  h-[500] w-[500px] rounded-xl '>
                     <form className='p-5' >
                         <div className='flex items-center'>
-                            <input value={postTittle} onChange={(e) => { setPostTittle(e.target.value) }} placeholder="Post Tittle" className='bg-white w-2/3 h-10 focus:outline-none text-xs p-2 rounded placeholder:text-xs ' />
+                            <input value={postTittle} onChange={(e) => { setPostTittle(e.target.value) }} placeholder="Post Tittle"   className='bg-white w-2/3 h-10 focus:outline-none text-xs p-2 rounded placeholder:text-xs ' />
                             <div>
                                 <label className=" bg-cyan-600 px-2 py-3 rounded-md text-xs ml-2  text-white cursor-pointer hover:opacity-60" htmlFor="file_input">{postImage ? "Image Added!" : "Add Image"} </label>
                                 <input
@@ -107,8 +105,7 @@ function EditPost(props) {
                             </button>
                             <button onClick={editPost} className='font-semibold flex items-center gap-2 px-2 py-1 rounded-lg bg-sky-500 hover:opacity-70 text-white ml-5'>
                                 <span>Edit Post</span>
-                            </button>
-                          
+                            </button>                          
                         </div>
                     </form>
                 </div>
