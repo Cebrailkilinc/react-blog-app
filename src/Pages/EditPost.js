@@ -73,7 +73,7 @@ function EditPost(props) {
     return (
         <>
             <div className='fixed inset-0 bg-black bg-opacity-70   flex items-center justify-center  z-50' >
-                <div className='bg-sky-200  h-[500] w-[500px] rounded-xl '>
+                <div className='bg-sky-50  w-11/12 sm:h-[500] sm:w-[500px] '>
                     <form className='p-5' >
                         <div className='flex items-center'>
                             <input value={postTittle} onChange={(e) => { setPostTittle(e.target.value) }} placeholder="Post Tittle"   className='bg-white w-2/3 h-10 focus:outline-none text-xs p-2 rounded placeholder:text-xs ' />

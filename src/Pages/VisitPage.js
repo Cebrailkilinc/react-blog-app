@@ -1,24 +1,14 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams,Link } from "react-router-dom"
 import axios from "axios"
-import { Link } from "react-router-dom"
-
-import { BsFillHeartFill } from "react-icons/bs"
-import { MdAddCircleOutline } from "react-icons/md"
-import { FaRegEdit } from "react-icons/fa"
-import { AiFillDelete } from "react-icons/ai"
 import { VscComment } from "react-icons/vsc"
 import { GrLike } from "react-icons/gr"
-
-
 
 
 function VisitPage() {
 
     const [visitUserData, setVisitUserData] = useState("")
-
-    const { userId } = useParams()
- 
+    const { userId } = useParams() 
 
     // Get post
     const config = {
@@ -90,7 +80,6 @@ function VisitPage() {
                                 )
                             })
                         }
-
                     </div>
                 </div>
                 <div className='col-span-1'></div>

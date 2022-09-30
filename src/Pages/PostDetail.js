@@ -1,25 +1,28 @@
-import { useState, useEffect } from 'react'
-import { useContext } from 'react'
+import { useState, useEffect,useContext } from 'react'
 import BlogContext from '../Context/BlogContext'
-import { Link, useParams } from 'react-router-dom'
-import PostService from '../Storage/api'
+import { Link, useParams, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
-import { BsHeart, BsFillShareFill, BsFillHeartFill } from "react-icons/bs"
+import { BsHeart, BsFillHeartFill } from "react-icons/bs"
 import { VscComment } from "react-icons/vsc"
 
 
 function Post() {
 
-  const { posts, postDetail, setPostDetail, currentuser } = useContext(BlogContext)
+  const {postDetail, setPostDetail, currentuser} = useContext(BlogContext)
 
   const { id } = useParams()
-
 
   const [postComments, setPostComments] = useState("")
   const [commentOfUser, setCommentOfUser] = useState("")
   const [likesOfPost, setLikeOfPost] = useState([])
   const [likeButtonControll, setLikeButtonControll] = useState(true)
+  const [numberOfLike, setNumberOfLike] = useState(0)
+
+  const onTop = () => {
+    window.scrollTo(0, 0);
+  }
+
 
   const config = {
     headers: { Authorization: `Bearer ${localStorage.getItem("tokenKey")}` }
@@ -32,7 +35,8 @@ function Post() {
       config
     ).then(result => {
       setPostDetail(result.data)      
-      setLikeOfPost(result.data.postsLikes)      
+      setLikeOfPost(result.data.postsLikes)    
+      setNumberOfLike(likesOfPost.length)  
     }).catch(err => console.log(err))
   }
 
@@ -46,26 +50,51 @@ function Post() {
     axios.post("http://localhost:5000/api/likes/" + id, likeData, config).then(result => {
       console.log(result.data)
         setLikeOfPost([result.data, ...likesOfPost]) 
-        setLikeButtonControll(false)            
-    })
+        setNumberOfLike(numberOfLike+1) 
+                   
+    }).finally(()=>setLikeButtonControll(false) )
   }
 
   const handleLikeDelete = async () =>{
+    setLikeButtonControll(true)
    await axios.delete(`http://localhost:5000/api/likes/delete?userId=${localStorage.getItem("currentUserId")}&postId=${id}`,config)
     .then(result => {
-      console.log(result)  
-       
-    })   
+      console.log(result) 
+      setLikeOfPost([...likesOfPost]) 
+      setNumberOfLike(numberOfLike-1) 
+    }).finally(()=>setLikeButtonControll(true))   
   }
+
+useEffect(()=>{
+  let like =likesOfPost.find(item => item.userId == localStorage.getItem("currentUserId")) 
+  if (like != null) {
+    setLikeButtonControll(false)
+  }  
+},[likesOfPost.length])  
+  
 
   useEffect(()=>{
     getPostDetail();
-  },[likesOfPost])
+  },[likesOfPost.length])
 
   // Data of comment
   const commentData = {
     commentBody: postComments
   }
+
+  
+  const getPostComment = () => {
+    axios.get(
+      'http://localhost:5000/api/comments/post/' + id,
+      config
+    ).then(result => {
+      setCommentOfUser(result.data)      
+    })
+  }
+  useEffect(() => {
+    getPostComment()
+    onTop();
+  },[commentOfUser.length])
 
   const addCommentToPost = async (e) => {
     e.preventDefault()
@@ -73,24 +102,11 @@ function Post() {
       'http://localhost:5000/api/comments/' + id,
       commentData,
       config
-    ).then(result => {
-      console.log("Succsessfull !")
+    ).then(result => {     
+      setCommentOfUser([result.data, ...commentOfUser])   
     })
     setPostComments("")
   }
-
-  const getPostComment = () => {
-    axios.get(
-      'http://localhost:5000/api/comments/post/' + id,
-      config
-    ).then(result => {
-      setCommentOfUser(result.data)
-    })
-  }
-  useEffect(() => {
-    getPostComment()
-  }, [])
-
 
   return (
     <div className='pb-10'>
@@ -111,7 +127,7 @@ function Post() {
           <div className='px-5 py-3 flex gap-5 items-center'>
             <div className='flex items-center gap-2'>
               {likeButtonControll ? <BsHeart onClick={handleLikePost} size={20} /> : <BsFillHeartFill onClick={handleLikeDelete} size={20} />}
-              <span>{likesOfPost.length}</span>
+              <span>{numberOfLike}</span>
             </div>
             <div className='flex items-center gap-2'>
               <VscComment size={23} />
@@ -126,7 +142,7 @@ function Post() {
                   <div className='px-5' key={i}>
                     <div className='flex items-center gap-x-2 mt-5 '>
                       <img className='w-6 h-6 rounded-full cursor-pointer hover:opacity-80 ' src='https://picsum.photos/200' />
-                      <span className='text-xs font-extrabold cursor-pointer hover:opacity-80'>{item.firstName}</span>
+                      <span className='text-xs font-extrabold cursor-pointer hover:opacity-80'>{item.firstName }</span>
                     </div>
                     <p className='text-xs mt-3 px-3'>{item.commentBody}</p>
                   </div>

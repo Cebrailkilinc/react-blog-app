@@ -1,33 +1,18 @@
 import { useContext, useEffect } from 'react'
 import moment from 'moment'
 import BlogContext from '../Context/BlogContext'
-
 //Icons
-import { BsHeart, BsFillShareFill, BsFillHeartFill } from "react-icons/bs"
-import { BiDotsVerticalRounded } from "react-icons/bi"
-import { FaRegComment } from "react-icons/fa"
+import { BsFillShareFill} from "react-icons/bs"
 import { GrLike } from "react-icons/gr"
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
-import { number } from 'prop-types'
-import axios from 'axios'
 
-function Card({ username, head, description, postId, lastName, firstName, postCreateTime,userId, setUserId }) {
+
+function Card({ username, head, description, postId, lastName, firstName, postCreateTime, userId, setUserId, numberOfLike }) {
     const {
-        numberOfLike, setNumberOfLike, currentuser, setCurrentUser
+        currentuser, setCurrentUser
     } = useContext(BlogContext)
 
-    // Click like button controll
-    const [clickcLikeButton, setClickLikeButton] = useState("")
-    const [likeId, setLikeId] = useState("")
-    const [allLikes, setAllLikes] = useState("")
-
-    const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem("tokenKey")}` }
-    };
-
-   //current id: console.log(currentuser.id)
-
+    //current id: console.log(currentuser.id)
     return (
         <div className='w-[300px] sm:w-72 h-96 mt-5 overflow-hidden  border shadow-md shadow-indigo-300'>
             <div>
@@ -41,7 +26,7 @@ function Card({ username, head, description, postId, lastName, firstName, postCr
             </div>
             <div className='px-5 py-2 bottom-0 flex items-center justify-between'>
                 <div className='flex items-center gap-x-4'>
-                    <GrLike/>
+                    <GrLike />
                     <span className='text-sm font-semibold' >{numberOfLike}</span>
                 </div>
                 <div>

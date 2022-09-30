@@ -42,7 +42,6 @@ function Register() {
     setUserName("")
     setUserPassword("")
     navigate("/login")
-
   }
 
   return (

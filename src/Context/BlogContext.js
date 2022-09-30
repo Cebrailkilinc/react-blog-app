@@ -50,7 +50,7 @@ export const BlogProvider = ({ children }) => {
     const [loadingMessage, setLoadingMessage] = useState("")
 
     //Like Controll
-    const [numberOfLike, setNumberOfLike] = useState(1)
+ 
 
     //User Id controll
     const [userId, setUserId] = useState("")
@@ -87,9 +87,7 @@ export const BlogProvider = ({ children }) => {
         loadingMessage,
         setLoadingMessage,
         loading,
-        setLoading,
-        numberOfLike,
-        setNumberOfLike,
+        setLoading,     
         userId,
         setUserId
        

@@ -7,12 +7,10 @@ function UserSetting() {
 
   const { userId } = useParams()
 
-  const [settingUserData, setSettingUserData] = useState("")
   const [nickname, setNickname] = useState("")
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
-  const [userPhoto, setUserPhoto] = useState("")
 
   const config = {
     headers: { Authorization: `Bearer ${localStorage.getItem("tokenKey")}` }
@@ -48,7 +46,6 @@ function UserSetting() {
       userInfoData, config
     ).then(result => {
       console.log(result.data)
-
     })
   }
 
@@ -56,24 +53,7 @@ function UserSetting() {
   return (
     <>
       <div className="grid grid-cols-12 max-w-4xl  mx-auto gap-3">
-        <div className='col-span-11 grid grid-cols-12  border-l '>
-          <div className='col-span-4 justify-center text-center bg-purple-50 top-80 '>
-            <img className='w-full h-40 mx-auto' src='https://picsum.photos/200/300' />
-            {/* <img className='w-20 h-20 absolute left-64 top-44 rounded-xl mx-auto ' src='https://picsum.photos/200/300' /> */}
-            <h6 className='font-bold mt-16'>asfasafs</h6>
-            <div className='flex items-center justify-center text-xs ' >
-              <h6 className='font-semibold'>Username : </h6>
-              <h6>safasafs</h6>
-            </div>
-            <div className='flex items-center justify-center text-xs' >
-              <h6 className='font-semibold'>Email : </h6>
-              <h6>sadadsa</h6>
-            </div>
-            <div className='flex items-center justify-center text-xs' >
-              <h6 className='font-semibold'>Number of Post : </h6>
-              <h6>asdasd</h6>
-            </div>
-          </div>
+        <div className='col-span-11 grid grid-cols-12  '>  
           <div className='grid col-span-8 border-x p-2 justify-center'>
             <h1>AYARLAR</h1>
             <div className="flex items-center gap-2">

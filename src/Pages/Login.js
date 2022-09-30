@@ -40,8 +40,8 @@ function Login() {
         let authService = new AuthService()
         authService.postUserAuth(nickName, password)
             .then(response => {
-                localStorage.setItem("tokenKey", response.data)
                 setIsAuthenticated(true)
+                localStorage.setItem("tokenKey", response.data)                
                 console.log(localStorage.getItem("tokenKey"))
             })
     }
@@ -63,7 +63,6 @@ function Login() {
             navigate("/")
         })
     }
-
 
     const handleLogin = async () => {
         getTokenData()

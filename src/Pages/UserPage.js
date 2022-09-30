@@ -1,35 +1,25 @@
-import { useEffect, } from 'react'
-import { useParams } from 'react-router-dom'
+import { useEffect,useState, useContext } from 'react'
+import { useParams,Link } from 'react-router-dom'
 import BlogContext from '../Context/BlogContext'
-import { useContext } from 'react'
 import axios from 'axios'
 import { BsFillHeartFill } from "react-icons/bs"
 import { MdAddCircleOutline } from "react-icons/md"
 import { FaRegEdit } from "react-icons/fa"
 import { AiFillDelete } from "react-icons/ai"
 import AddPost from './AddPost'
-import { useState } from 'react'
 import EditPost from './EditPost'
-import Loading from '../Components/Loading'
-import { Link } from 'react-router-dom'
 import Toast from '../Components/Toast'
-import UserSetting from './UserSetting'
+
 
 
 function UserPage() {
 
     const {
-        isAuthenticated,
-        setIsAuthenticated,
-        dropDownDisplay, setDropDownDisplay,
-        jwt, setJwt, currentuser, setCurrentUser, toastControll, setToastControll
+        currentuser, setCurrentUser, toastControll
     } = useContext(BlogContext)
 
-    const { id } = useParams()
-
     const [openAddPostModal, setAddPostModal] = useState(false)
-    const [openEditPostModal, setOpenEditPostModal] = useState(false)
-    const [openSettingModal, setOpenSettingModal] = useState(false)
+    const [openEditPostModal, setOpenEditPostModal] = useState(false)   
     const [postId, setPostId] = useState("")
     const [loading, setLoading] = useState(false)
 
@@ -37,7 +27,6 @@ function UserPage() {
     useEffect(() => {
         setLoading(true)
         setTimeout(setLoading, 500)
-
     }, [])
 
     const handleId = (ids) => {
@@ -60,7 +49,6 @@ function UserPage() {
         return <EditPost postId={postId} setOpenEditPostModal={setOpenEditPostModal} />
     }
 
-
     const deletePost = (id) => {
         const config = {
             headers: { Authorization: `Bearer ${localStorage.getItem("tokenKey")}` }
@@ -72,9 +60,7 @@ function UserPage() {
             console.log(result.data)
         })
     }
-
-
-    const getCurrentUser2 = () => {
+    const getCurrentUser = () => {
         const config = {
             headers: { Authorization: `Bearer ${localStorage.getItem("tokenKey")}` }
         };
@@ -83,21 +69,19 @@ function UserPage() {
             config
         ).then(result => {
             const newUser = result.data;
-            setCurrentUser(newUser)
-            
+            setCurrentUser(newUser)            
         })
     }
-    getCurrentUser2()
-
+    getCurrentUser();
 
     return (
         <>
             <div className="grid grid-cols-12 max-w-4xl  mx-auto gap-3">
-                <div className='col-span-11 grid grid-cols-12  border-l '>
-                    <div className='col-span-4 justify-center text-center bg-purple-50 top-80 '>                    
-                            <img className='w-full h-40 mx-auto' src='https://picsum.photos/200/300' />
-                            {/* <img className='w-20 h-20 absolute left-64 top-44 rounded-xl mx-auto ' src='https://picsum.photos/200/300' /> */}
-                            <h6 className='font-bold mt-16'>Cebrail Kılınç</h6>
+                <div className=' col-span-12 sm:col-span-11 grid  sm:grid-cols-12  border-l '>
+                    <div className='col-span-12 sm:col-span-4 col justify-center text-center bg-zinc-50  top-80 '>                    
+                            <img className='hidden sm:block w-full h-40 mx-auto' src='https://picsum.photos/200/300' />
+                            <img className='w-20 h-20 absolute left-36 sm:left-64 sm:top-44 rounded-xl mx-auto ' src='https://picsum.photos/200/300' />
+                            <h6 className='font-bold mt-24'>Cebrail Kılınç</h6>
                             <div className='flex items-center justify-center text-xs ' >
                                 <h6 className='font-semibold'>Username : </h6>
                                 <h6>cebrail</h6>
@@ -106,25 +90,23 @@ function UserPage() {
                                 <h6 className='font-semibold'>Email : </h6>
                                 <h6>cebrailkilinc@gmail.com</h6>
                             </div>
-
                             <div className='flex items-center justify-center text-xs' >
                                 <h6 className='font-semibold'>Number of Post : </h6>
                                 <h6>25</h6>
                             </div>
-                            <div className='flex items-center justify-center text-xs mt-10' >
+                            <div className='flex items-center justify-center text-xs mt-5 sm:mt-10' >
                                 <button onClick={() => { setAddPostModal(true) }} className='font-semibold flex items-center gap-2 p-2 rounded-lg bg-sky-500 hover:opacity-70 text-white'>
                                     <MdAddCircleOutline size={20} />
                                     <span>Add Post</span>
-
                                 </button>
                             </div>                    
                     </div>
-                    <div className='col-span-8 border-x h-screen p-2'>
+                    <div className=' col-span-12 sm:col-span-8 border-x h-screen p-2'>
                         {
                             currentuser.posts?.map((item, i) => {
 
                                 return (
-                                    <div key={i} className="flex border rounded-lg mt-5  justify-between p-2 bg-sky-100    ">
+                                    <div key={i} className="flex border mt-5  justify-between p-2  bg-zinc-50   ">
                                         <div className='p-2 w-3/5 flex flex-col justify-between '>
                                             <Link to={"/post/" + item.id}>
                                                 <div onClick={() => { setPostId(item.id) }}>
@@ -146,7 +128,7 @@ function UserPage() {
                                             </div>
                                         </div>
                                         <div>
-                                            <img className='h-full w-28 object-cover rounded-r-lg' src='https://picsum.photos/200/' />
+                                            <img className='h-full w-28 object-cover ' src='https://picsum.photos/200/' />
                                         </div>
                                     </div>
                                 )
