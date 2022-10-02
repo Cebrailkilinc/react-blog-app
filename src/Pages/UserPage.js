@@ -1,5 +1,5 @@
-import { useEffect,useState, useContext } from 'react'
-import { useParams,Link } from 'react-router-dom'
+import { useEffect, useState, useContext } from 'react'
+import { useParams, Link } from 'react-router-dom'
 import BlogContext from '../Context/BlogContext'
 import axios from 'axios'
 import { BsFillHeartFill } from "react-icons/bs"
@@ -9,6 +9,7 @@ import { AiFillDelete } from "react-icons/ai"
 import AddPost from './AddPost'
 import EditPost from './EditPost'
 import Toast from '../Components/Toast'
+import Loading from '../Components/Loading'
 
 
 
@@ -19,7 +20,7 @@ function UserPage() {
     } = useContext(BlogContext)
 
     const [openAddPostModal, setAddPostModal] = useState(false)
-    const [openEditPostModal, setOpenEditPostModal] = useState(false)   
+    const [openEditPostModal, setOpenEditPostModal] = useState(false)
     const [postId, setPostId] = useState("")
     const [loading, setLoading] = useState(false)
 
@@ -69,41 +70,84 @@ function UserPage() {
             config
         ).then(result => {
             const newUser = result.data;
-            setCurrentUser(newUser)            
+            setCurrentUser(newUser)
         })
     }
     getCurrentUser();
 
     return (
         <>
-            <div className="grid grid-cols-12 max-w-4xl  mx-auto gap-3">
+            <div className='flex flex-col max-w-3xl mx-auto justify-center items-center'>
+                <div className='flex items-center justify-center w-full h-40 gap-5 bg-sky-500'>
+                    <img className='w-20 h-20 rounded-xl ' src='https://picsum.photos/200/300' />
+                    <h1 className='text-white'>Cebrail KILINÇ</h1>                    
+                </div>
+                <div className='w-full bg-slate-600 h-32'>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            {/* <div className="grid grid-cols-12 max-w-4xl  mx-auto gap-3">
                 <div className=' col-span-12 sm:col-span-11 grid  sm:grid-cols-12  border-l '>
-                    <div className='col-span-12 sm:col-span-4 col justify-center text-center bg-zinc-50  top-80 '>                    
-                            <img className='hidden sm:block w-full h-40 mx-auto' src='https://picsum.photos/200/300' />
-                            <img className='w-20 h-20 absolute left-36 sm:left-64 sm:top-44 rounded-xl mx-auto ' src='https://picsum.photos/200/300' />
-                            <h6 className='font-bold mt-24'>Cebrail Kılınç</h6>
-                            <div className='flex items-center justify-center text-xs ' >
-                                <h6 className='font-semibold'>Username : </h6>
-                                <h6>cebrail</h6>
-                            </div>
-                            <div className='flex items-center justify-center text-xs' >
-                                <h6 className='font-semibold'>Email : </h6>
-                                <h6>cebrailkilinc@gmail.com</h6>
-                            </div>
-                            <div className='flex items-center justify-center text-xs' >
-                                <h6 className='font-semibold'>Number of Post : </h6>
-                                <h6>25</h6>
-                            </div>
-                            <div className='flex items-center justify-center text-xs mt-5 sm:mt-10' >
-                                <button onClick={() => { setAddPostModal(true) }} className='font-semibold flex items-center gap-2 p-2 rounded-lg bg-sky-500 hover:opacity-70 text-white'>
-                                    <MdAddCircleOutline size={20} />
-                                    <span>Add Post</span>
-                                </button>
-                            </div>                    
+                    <div className='col-span-12 sm:col-span-4 col justify-center text-center bg-zinc-50  top-80 '>
+                        <img className='hidden sm:block w-full h-40 mx-auto' src='https://picsum.photos/200/300' />
+                        <img className='w-20 h-20 absolute left-36 sm:left-64 sm:top-44 rounded-xl mx-auto ' src='https://picsum.photos/200/300' />
+                        <h6 className='font-bold mt-24'>Cebrail Kılınç</h6>
+                        <div className='flex items-center justify-center text-xs ' >
+                            <h6 className='font-semibold'>Username : </h6>
+                            <h6>cebrail</h6>
+                        </div>
+                        <div className='flex items-center justify-center text-xs' >
+                            <h6 className='font-semibold'>Email : </h6>
+                            <h6>cebrailkilinc@gmail.com</h6>
+                        </div>
+                        <div className='flex items-center justify-center text-xs' >
+                            <h6 className='font-semibold'>Number of Post : </h6>
+                            <h6>25</h6>
+                        </div>
+                        <div className='flex items-center justify-center text-xs mt-5 sm:mt-10' >
+                            <button onClick={() => { setAddPostModal(true) }} className='font-semibold flex items-center gap-2 p-2 rounded-lg bg-sky-500 hover:opacity-70 text-white'>
+                                <MdAddCircleOutline size={20} />
+                                <span>Add Post</span>
+                            </button>
+                        </div>
                     </div>
                     <div className=' col-span-12 sm:col-span-8 border-x h-screen p-2'>
                         {
-                            currentuser.posts?.map((item, i) => {
+                            currentuser.posts ? currentuser.posts?.map((item, i) => {
 
                                 return (
                                     <div key={i} className="flex border mt-5  justify-between p-2  bg-zinc-50   ">
@@ -132,13 +176,13 @@ function UserPage() {
                                         </div>
                                     </div>
                                 )
-                            })
+                            }) : <Loading />
                         }
                     </div>
                 </div>
                 <div className='col-span-1'></div>
                 {toastControll ? <Toast /> : null}
-            </div>
+            </div> */}
         </>
     )
 }

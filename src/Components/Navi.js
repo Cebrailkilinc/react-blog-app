@@ -47,7 +47,7 @@ function Navi() {
                 {/*Mobile Menu */}
                 <div onClick={handleSideMenu} className='block sm:hidden'>
                     <ul className='hover:text-indigo-300'>
-                        <li className='p-4'>{isOpenSideMenu ? <HiOutlineMenu size={20} onClick={() => console.log("cebrail kılınç")} /> : <AiOutlineClose />}</li>
+                        <li className='p-4'>{isOpenSideMenu ? <HiOutlineMenu size={20}  /> : <AiOutlineClose />}</li>
                     </ul>
                 </div>
                 <div className={!isOpenSideMenu ? 'block sm:hidden fixed top-0 left-0 w-[60%] h-full bg-indigo-100  duration-1000  ' : "fixed h-full w-[60%] top-0 left-[-100%] duration-1000  "}>

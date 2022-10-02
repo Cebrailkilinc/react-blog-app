@@ -1,15 +1,17 @@
-import { useState, useEffect,useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import BlogContext from '../Context/BlogContext'
 import { Link, useParams, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
 import { BsHeart, BsFillHeartFill } from "react-icons/bs"
 import { VscComment } from "react-icons/vsc"
+import { AiFillDelete } from "react-icons/ai"
+import Loading from '../Components/Loading'
 
 
 function Post() {
 
-  const {postDetail, setPostDetail, currentuser} = useContext(BlogContext)
+  const { postDetail, setPostDetail, currentuser } = useContext(BlogContext)
 
   const { id } = useParams()
 
@@ -22,6 +24,9 @@ function Post() {
   const onTop = () => {
     window.scrollTo(0, 0);
   }
+  useEffect(()=>{
+    onTop()
+  },[])
 
 
   const config = {
@@ -34,13 +39,13 @@ function Post() {
       'http://localhost:5000/api/posts/' + id,
       config
     ).then(result => {
-      setPostDetail(result.data)      
-      setLikeOfPost(result.data.postsLikes)    
-      setNumberOfLike(likesOfPost.length)  
+      setPostDetail(result.data)
+      setLikeOfPost(result.data.postsLikes)
+      setNumberOfLike(likesOfPost.length)
     }).catch(err => console.log(err))
   }
 
- 
+
   // add likes
   const likeData = {
     userId: currentuser.id,
@@ -49,52 +54,50 @@ function Post() {
   const handleLikePost = () => {
     axios.post("http://localhost:5000/api/likes/" + id, likeData, config).then(result => {
       console.log(result.data)
-        setLikeOfPost([result.data, ...likesOfPost]) 
-        setNumberOfLike(numberOfLike+1) 
-                   
-    }).finally(()=>setLikeButtonControll(false) )
+      setLikeOfPost([result.data, ...likesOfPost])
+      setNumberOfLike(numberOfLike + 1)
+
+    }).finally(() => setLikeButtonControll(false))
   }
 
-  const handleLikeDelete = async () =>{
+  const handleLikeDelete = async () => {
     setLikeButtonControll(true)
-   await axios.delete(`http://localhost:5000/api/likes/delete?userId=${localStorage.getItem("currentUserId")}&postId=${id}`,config)
-    .then(result => {
-      console.log(result) 
-      setLikeOfPost([...likesOfPost]) 
-      setNumberOfLike(numberOfLike-1) 
-    }).finally(()=>setLikeButtonControll(true))   
+    await axios.delete(`http://localhost:5000/api/likes/delete?userId=${localStorage.getItem("currentUserId")}&postId=${id}`, config)
+      .then(result => {
+        setNumberOfLike(numberOfLike - 1)
+        setLikeOfPost([...likesOfPost])        
+      }).finally(() => setLikeButtonControll(true))
   }
 
-useEffect(()=>{
-  let like =likesOfPost.find(item => item.userId == localStorage.getItem("currentUserId")) 
-  if (like != null) {
-    setLikeButtonControll(false)
-  }  
-},[likesOfPost.length])  
-  
+  useEffect(() => {
+    let like = likesOfPost.find(item => item.userId == localStorage.getItem("currentUserId"))
+    if (like != null) {
+      setLikeButtonControll(false)
+    }
+  }, [likesOfPost.length])
 
-  useEffect(()=>{
+
+  useEffect(() => {
     getPostDetail();
-  },[likesOfPost.length])
+  }, [likesOfPost.length])
 
   // Data of comment
   const commentData = {
     commentBody: postComments
   }
 
-  
   const getPostComment = () => {
     axios.get(
       'http://localhost:5000/api/comments/post/' + id,
       config
     ).then(result => {
-      setCommentOfUser(result.data)      
+      setCommentOfUser(result.data)
     })
   }
   useEffect(() => {
     getPostComment()
-    onTop();
-  },[commentOfUser.length])
+
+  }, [commentOfUser.length])
 
   const addCommentToPost = async (e) => {
     e.preventDefault()
@@ -102,10 +105,20 @@ useEffect(()=>{
       'http://localhost:5000/api/comments/' + id,
       commentData,
       config
-    ).then(result => {     
-      setCommentOfUser([result.data, ...commentOfUser])   
+    ).then(result => {
+      setCommentOfUser([result.data, ...commentOfUser])
     })
     setPostComments("")
+  }
+
+  //Delete comment
+  const handleDeleteComment = (commentId) => {
+    console.log(commentId)
+    axios.delete("http://localhost:5000/api/comments/" + commentId, config)
+      .then(result => {
+        setCommentOfUser([result.data, ...commentOfUser])
+      })
+      .catch(error => console.log(error))
   }
 
   return (
@@ -126,7 +139,7 @@ useEffect(()=>{
           </div>
           <div className='px-5 py-3 flex gap-5 items-center'>
             <div className='flex items-center gap-2'>
-              {likeButtonControll ? <BsHeart onClick={handleLikePost} size={20} /> : <BsFillHeartFill onClick={handleLikeDelete} size={20} />}
+              {likeButtonControll ? <BsHeart className='cursor-pointer hover:opacity-50' onClick={handleLikePost} size={20} /> : <BsFillHeartFill className='cursor-pointer hover:opacity-50' color='red' onClick={handleLikeDelete} size={20} />}
               <span>{numberOfLike}</span>
             </div>
             <div className='flex items-center gap-2'>
@@ -142,12 +155,15 @@ useEffect(()=>{
                   <div className='px-5' key={i}>
                     <div className='flex items-center gap-x-2 mt-5 '>
                       <img className='w-6 h-6 rounded-full cursor-pointer hover:opacity-80 ' src='https://picsum.photos/200' />
-                      <span className='text-xs font-extrabold cursor-pointer hover:opacity-80'>{item.firstName }</span>
+                      <span className='text-xs font-extrabold cursor-pointer hover:opacity-80'>{item.firstName}</span>
                     </div>
-                    <p className='text-xs mt-3 px-3'>{item.commentBody}</p>
+                    <div className='flex items-center justify-between'>
+                      <p className='text-xs mt-3 px-3'>{item.commentBody}</p>
+                      {item.userId == localStorage.getItem("currentUserId") ? <AiFillDelete onClick={() => handleDeleteComment(item.id)} className='cursor-pointer hover:text-red-600' /> : ""}
+                    </div>
                   </div>
                 )
-              }) : null
+              }) : <Loading/>
             }
           </div>
           <div className=' bg-slate-100'>

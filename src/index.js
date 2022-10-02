@@ -5,11 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import "./index.css";
 
 
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
-
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
 
 
 root.render(    

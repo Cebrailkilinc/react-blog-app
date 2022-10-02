@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import InfoSetting from "./InfoSetting";
+import PasswordSetting from "./PasswordSetting";
 
 
 function UserSetting() {
@@ -11,6 +13,12 @@ function UserSetting() {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [settingControll, setSettigControll] = useState(false);
+  const [formInfoAlertControll, setFormInfoAlertControll] = useState(false);
 
   const config = {
     headers: { Authorization: `Bearer ${localStorage.getItem("tokenKey")}` }
@@ -25,7 +33,6 @@ function UserSetting() {
       setLastName(result.data.lastName)
       setEmail(result.data.email)
       setNickname(result.data.username)
-
     }).catch(err => console.log(err))
   }
   useEffect(() => {
@@ -39,45 +46,40 @@ function UserSetting() {
     username: nickname
   }
 
-  const editUserInfo = (e) => {
-    e.preventDefault()
-    axios.post(
-      "http://localhost:5000/api/users/" + userId,
-      userInfoData, config
-    ).then(result => {
-      console.log(result.data)
-    })
+  const handleSettingChange = () => {
+    setSettigControll(settingControll === true ? false : true)
   }
-
 
   return (
     <>
-      <div className="grid grid-cols-12 max-w-4xl  mx-auto gap-3">
-        <div className='col-span-11 grid grid-cols-12  '>  
-          <div className='grid col-span-8 border-x p-2 justify-center'>
-            <h1>AYARLAR</h1>
-            <div className="flex items-center gap-2">
-              <input defaultValue={nickname} onChange={(e) => { setNickname(e.target.value) }} className="h-8 w-44 border outline-none text-xs p-1" />
-              <div className="mb-1">
-                <label className=" bg-cyan-600 px-2 py-2 rounded-md text-xs  text-white cursor-pointer hover:opacity-60" htmlFor="file_input"> Add Image</label>
-                <input
-                  className="hidden w-full  text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300  dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                  id="file_input"
-                  type="file"
-                />
-              </div>
+      <div className="w-full h-screen flex flex-col  items-center bg-gradient-to-r from-blue-500 via-purple-200 to-pink-200   ">
+        <div className="h-1/3  w-full">
+          <h1 className="text-white">Account Setting</h1>
+        </div>
+        <div className=" absolute flex w-5/6 sm:w-2/4 h-96 top-40 bg-white shadow-2xl rounded-md z-50 ">
+          <div className="w-2/6 border-r text-center p-1 sm:p-5 " >
+            <div>
+              <img className="w-12 h-12 mt-6 sm:mt-0 sm:w-20 sm:h-20 rounded-full mx-auto" src="https://picsum.photos/200/300" />
+              <h3 className="font-semibold text-xs sm:text-base mt-2 ">Cebrail KILINÇ</h3>
             </div>
-            <input defaultValue={firstName} className="h-8 w-64 border outline-none text-xs p-1" />
-            <input defaultValue={lastName} className="h-8 w-64 border outline-none text-xs p-1" />
-            <input defaultValue={email} className="h-8 w-64 border outline-none text-xs p-1" />
-            <button onClick={editUserInfo} className="bg-blue-500 text-white h-10">Kaydet</button>
+            <div className="text-xs" >
+              <button onClick={handleSettingChange} className="font-semibold w-full mt-10 border-b pb-1 cursor-pointer hover:text-sky-500 focus:border-b-sky-500 ">User</button>
+              <button onClick={handleSettingChange} className="font-semibold w-full mt-5 border-b pb-1 cursor-pointer hover:text-sky-500 focus:border-b-sky-500 ">Password</button>
+            </div>
+          </div>
+          <div className="w-4/6 text-center flex flex-col items-center justify-center" >
+            {
+              formInfoAlertControll ?
+                <div className="p-2 mb-4 text-xs text-blue-700 bg-blue-100 rounded-lg dark:bg-blue-200 dark:text-blue-800" role="alert">
+                  <span class="font-medium">Info alert!</span>
+                </div> : null
+            }
+            <div className="w-3/4 text-center flex flex-col items-center justify-center">
+              {settingControll ? <InfoSetting handleSettingChange={handleSettingChange} /> : <PasswordSetting handleSettingChange={handleSettingChange} />}
+            </div>
           </div>
         </div>
-        <div className='col-span-1'></div>
       </div>
-
-
-
     </>
   )
 }

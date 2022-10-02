@@ -9,10 +9,10 @@ import UserPage from './Pages/UserPage';
 import Home from './Pages/Home';
 import VisitPage from './Pages/VisitPage';
 import UserSetting from './Pages/UserSetting';
+import { useEffect } from 'react';
 
 
-function App() {
-
+function App() {  
   return (   
       <BrowserRouter>
         <BlogProvider>        
@@ -28,7 +28,6 @@ function App() {
           </Routes>                
         </BlogProvider>
       </BrowserRouter>
-
   );
 }
 
