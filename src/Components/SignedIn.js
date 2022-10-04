@@ -51,7 +51,7 @@ function SignedIn() {
                     </li>
                     <li className='flex items-center space-x-2 hover:bg-slate-100 px-2 pb-1 cursor-pointer'>
                         <span><AiOutlineSetting /></span>
-                        <Link to={`/setting/${currentuser.id}`}><span>Setting</span></Link>
+                        <Link to={`/setting/${localStorage.getItem("currentUserId")}`}><span>Setting</span></Link>
                     </li>
                     <li onClick={handleLogout} className='flex items-center space-x-2 hover:bg-slate-100 px-2 pb-1 cursor-pointer'>
                         <span><BiLogOut /></span>

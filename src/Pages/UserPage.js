@@ -77,56 +77,15 @@ function UserPage() {
 
     return (
         <>
-            <div className='flex flex-col max-w-3xl mx-auto justify-center items-center'>
-                <div className='flex items-center justify-center w-full h-40 gap-5 bg-sky-500'>
-                    <img className='w-20 h-20 rounded-xl ' src='https://picsum.photos/200/300' />
-                    <h1 className='text-white'>Cebrail KILINÇ</h1>                    
-                </div>
-                <div className='w-full bg-slate-600 h-32'>
-                </div>
-            </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            {/* <div className="grid grid-cols-12 max-w-4xl  mx-auto gap-3">
+            <div className="grid grid-cols-12 max-w-4xl  mx-auto gap-3">
                 <div className=' col-span-12 sm:col-span-11 grid  sm:grid-cols-12  border-l '>
-                    <div className='col-span-12 sm:col-span-4 col justify-center text-center bg-zinc-50  top-80 '>
+                    <div className='col-span-12 sm:col-span-4 pt-2 pb-5 justify-center text-center bg-zinc-50  top-80 '>
                         <img className='hidden sm:block w-full h-40 mx-auto' src='https://picsum.photos/200/300' />
-                        <img className='w-20 h-20 absolute left-36 sm:left-64 sm:top-44 rounded-xl mx-auto ' src='https://picsum.photos/200/300' />
-                        <h6 className='font-bold mt-24'>Cebrail Kılınç</h6>
-                        <div className='flex items-center justify-center text-xs ' >
+                        <img className='w-20 h-20 sm:absolute left-10 top-32 sm:left-[270px] sm:top-48 rounded-xl mx-auto ' src='https://picsum.photos/200/300' />
+                        <h6 className='font-bold mt-2 sm:mt-12'>Cebrail Kılınç</h6>
+                        <div className='flex items-center justify-center text-xs mt-3 ' >
                             <h6 className='font-semibold'>Username : </h6>
                             <h6>cebrail</h6>
                         </div>
@@ -138,7 +97,8 @@ function UserPage() {
                             <h6 className='font-semibold'>Number of Post : </h6>
                             <h6>25</h6>
                         </div>
-                        <div className='flex items-center justify-center text-xs mt-5 sm:mt-10' >
+
+                        <div className='flex items-center justify-center text-xs mt-5 sm:mt-10 ' >
                             <button onClick={() => { setAddPostModal(true) }} className='font-semibold flex items-center gap-2 p-2 rounded-lg bg-sky-500 hover:opacity-70 text-white'>
                                 <MdAddCircleOutline size={20} />
                                 <span>Add Post</span>
@@ -182,7 +142,7 @@ function UserPage() {
                 </div>
                 <div className='col-span-1'></div>
                 {toastControll ? <Toast /> : null}
-            </div> */}
+            </div>
         </>
     )
 }

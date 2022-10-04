@@ -20,7 +20,7 @@ function Navi() {
     const {  currentuser,
     } = useContext(BlogContext)
 
-    const [isOpenSideMenu, setIsOpenSideMenu] = useState(false)
+    const [isOpenSideMenu, setIsOpenSideMenu] = useState(true)
 
     //Open_Sidebar_Menu
     const handleSideMenu = () => {
@@ -51,7 +51,7 @@ function Navi() {
                     </ul>
                 </div>
                 <div className={!isOpenSideMenu ? 'block sm:hidden fixed top-0 left-0 w-[60%] h-full bg-indigo-100  duration-1000  ' : "fixed h-full w-[60%] top-0 left-[-100%] duration-1000  "}>
-                    <ul className='mt-10 uppercase text-center font-bold cursor-pointer'>
+                    <ul className='mt-10 uppercase text-center font-bold cursor-pointer  '>
                         <Link to={"/"}><li className='p-4'>Home</li></Link>
                         <Link to={`/profile/` + localStorage.getItem("nickname")}><li className='p-4'>Profile</li></Link>
                         <Link to={`/setting/${currentuser.id}`}><li className='p-4'>Setting</li></Link>
@@ -60,7 +60,6 @@ function Navi() {
                     <div className='absolute bottom-10 left-6 flex items-center gap-3' >
                         <img className="object-cover h-10 w-10 rounded-full  cursor-pointer hover:opacity-80 " src='https://picsum.photos/200' />
                         <span>Deneme</span>
-
                     </div>
                 </div>
 

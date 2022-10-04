@@ -46,9 +46,36 @@ function UserSetting() {
     username: nickname
   }
 
+
+
+
+
+  //Update userInfo
+  const updateUserInfo = () => {
+    localStorage.setItem("currentUserName", firstName)
+    localStorage.setItem("nickname", nickname)
+    axios.put('http://localhost:5000/api/users/' + userId, userInfoData, config)
+      .then(result => console.log(result))
+  }
   const handleSettingChange = () => {
     setSettigControll(settingControll === true ? false : true)
   }
+
+
+  const userPasswordData = {
+    headers: {
+      'Content-Length': 0,
+      'Content-Type': 'text/plain'
+    }
+  };
+
+  // update password
+  const updatePasswordInfo = () => {
+    console.log("password working...!")
+    axios.put('http://localhost:5000/api/users/change/' + userId, password, userPasswordData, config)
+      .then(result => console.log(result.data))
+  }
+
 
   return (
     <>
@@ -75,7 +102,8 @@ function UserSetting() {
                 </div> : null
             }
             <div className="w-3/4 text-center flex flex-col items-center justify-center">
-              {settingControll ? <InfoSetting handleSettingChange={handleSettingChange} /> : <PasswordSetting handleSettingChange={handleSettingChange} />}
+              {settingControll ? <InfoSetting updateUserInfo={updateUserInfo} nickname={nickname} firstName={firstName} lastName={lastName} email={email} handleSettingChange={handleSettingChange} setEmail={setEmail} setNickname={setNickname} setFirstName={setFirstName} setLastName={setLastName} /> :
+                <PasswordSetting updatePasswordInfo={updatePasswordInfo} password={password} confirmPassword={confirmPassword} setPassword={setPassword} newPassword={newPassword} setNewPassword={setNewPassword} setConfirmPassword={setConfirmPassword} handleSettingChange={handleSettingChange} />}
             </div>
           </div>
         </div>

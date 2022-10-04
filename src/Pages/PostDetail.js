@@ -20,13 +20,14 @@ function Post() {
   const [likesOfPost, setLikeOfPost] = useState([])
   const [likeButtonControll, setLikeButtonControll] = useState(true)
   const [numberOfLike, setNumberOfLike] = useState(0)
+  const [commentAccordion, setCommentAccordion] = useState("h-36")
 
   const onTop = () => {
     window.scrollTo(0, 0);
   }
-  useEffect(()=>{
+  useEffect(() => {
     onTop()
-  },[])
+  }, [])
 
 
   const config = {
@@ -65,7 +66,7 @@ function Post() {
     await axios.delete(`http://localhost:5000/api/likes/delete?userId=${localStorage.getItem("currentUserId")}&postId=${id}`, config)
       .then(result => {
         setNumberOfLike(numberOfLike - 1)
-        setLikeOfPost([...likesOfPost])        
+        setLikeOfPost([...likesOfPost])
       }).finally(() => setLikeButtonControll(true))
   }
 
@@ -101,24 +102,41 @@ function Post() {
 
   const addCommentToPost = async (e) => {
     e.preventDefault()
-    await axios.post(
-      'http://localhost:5000/api/comments/' + id,
-      commentData,
-      config
-    ).then(result => {
-      setCommentOfUser([result.data, ...commentOfUser])
-    })
-    setPostComments("")
+    if (postComments != "") {
+      await axios.post(
+        'http://localhost:5000/api/comments/' + id,
+        commentData,
+        config
+      ).then(result => {
+        setCommentOfUser([result.data, ...commentOfUser])
+      })
+      setPostComments("")
+    } else {
+      window.alert("Yorum boş olamaz")
+    }
+
   }
+
 
   //Delete comment
   const handleDeleteComment = (commentId) => {
     console.log(commentId)
-    axios.delete("http://localhost:5000/api/comments/" + commentId, config)
+    axios.delete("http://localhost:5000/api/comments/"+commentId, config)
       .then(result => {
         setCommentOfUser([result.data, ...commentOfUser])
       })
       .catch(error => console.log(error))
+  }
+
+  // Comment accordion controll
+  const handleComment = (e) => {
+    e.preventDefault()
+    console.log("deneme")
+    if (commentAccordion === "h-36") {
+      setCommentAccordion(" ")
+    } else {
+      setCommentAccordion("h-36")
+    }
   }
 
   return (
@@ -139,31 +157,35 @@ function Post() {
           </div>
           <div className='px-5 py-3 flex gap-5 items-center'>
             <div className='flex items-center gap-2'>
-              {likeButtonControll ? <BsHeart className='cursor-pointer hover:opacity-50' onClick={handleLikePost} size={20} /> : <BsFillHeartFill className='cursor-pointer hover:opacity-50' color='red' onClick={handleLikeDelete} size={20} />}
-              <span>{numberOfLike}</span>
+              {likeButtonControll ? <BsHeart className='transition ease-in-out delay-150 hover:-translate-y-0.5 hover:scale-100  duration-300  cursor-pointer hover:opacity-50' onClick={handleLikePost} size={20} /> : <BsFillHeartFill className='transition ease-in-out delay-150 hover:-translate-y-0.5 hover:scale-100  duration-300  cursor-pointer hover:opacity-50' color='red' onClick={handleLikeDelete} size={20} />}
+              <span className='text-sm font-semibold'>{numberOfLike} beğeni</span>
             </div>
             <div className='flex items-center gap-2'>
-              <VscComment size={23} />
-              <span>98</span>
+              <VscComment color='blue' className='transition ease-in-out delay-150 hover:-translate-y-0.5 hover:scale-100  duration-300 cursor-pointer hover:opacity-50 ' onClick={handleComment} size={23} />
+              <span className='text-sm font-semibold'>{commentOfUser.length} yorum</span>
             </div>
           </div>
-          <div className='p-5 bg-yellow-100'>
-            <h1 className='font-bold text-3xl' >Comments</h1>
+          <div className={`p-5 bg-white ${commentAccordion} overflow-hidden font-thin`}>
+            <div className=' flex items-center justify-between'>
+              <h1 className='font-bold text-3xl' >Comments</h1>
+              <h6 onClick={handleComment} className='font-bold text-sm cursor-pointer hover:opacity-70' >See All Comments</h6>
+            </div>
+
             {
               commentOfUser ? commentOfUser.map((item, i) => {
                 return (
-                  <div className='px-5' key={i}>
-                    <div className='flex items-center gap-x-2 mt-5 '>
+                  <div className={`px-5 border border-gray-200 pb-1 mt-2 mb-1`} key={i}>
+                    <div className='flex items-center gap-x-2 mt-2'>
                       <img className='w-6 h-6 rounded-full cursor-pointer hover:opacity-80 ' src='https://picsum.photos/200' />
                       <span className='text-xs font-extrabold cursor-pointer hover:opacity-80'>{item.firstName}</span>
                     </div>
                     <div className='flex items-center justify-between'>
-                      <p className='text-xs mt-3 px-3'>{item.commentBody}</p>
+                      <p className='text-xs mt-3 px-8'>{item.commentBody}</p>
                       {item.userId == localStorage.getItem("currentUserId") ? <AiFillDelete onClick={() => handleDeleteComment(item.id)} className='cursor-pointer hover:text-red-600' /> : ""}
                     </div>
                   </div>
                 )
-              }) : <Loading/>
+              }) : <Loading />
             }
           </div>
           <div className=' bg-slate-100'>
@@ -178,7 +200,7 @@ function Post() {
                   placeholder=""></textarea>
               </div>
               <div>
-                <button onClick={addCommentToPost} className="px-2 py-1 text-sm text-blue-100 bg-blue-600 rounded">
+                <button onClick={addCommentToPost} className="px-2 py-1 text-sm text-white hover:opacity-90 bg-blue-600 rounded transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-indigo-500 duration-300 ">
                   Comment
                 </button>
               </div>
