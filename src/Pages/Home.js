@@ -1,22 +1,25 @@
 import Card from '../Components/Card'
 import Slider from "../Components/Slider"
 import BlogContext from "../Context/BlogContext"
-import { useContext,useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import axios from 'axios'
 import Loading from '../Components/Loading'
 import Marquees from '../Components/Marquees'
 import Footer from '../Components/Footer'
+import ToastMessage from '../Components/ToastMessage'
+import { useNavigate } from 'react-router-dom'
 
 
 
 function Layout() {
 
-    const {     
-        setDropDownDisplay,    
+    const navigate = useNavigate()
+    const {
+        setDropDownDisplay,
         allPost, setAllPost,
-        setLoadingMessage,        
+        setLoadingMessage,
         loading,
-        setLoading,      
+        setLoading,
     } = useContext(BlogContext)
 
     const config = {
@@ -49,8 +52,11 @@ function Layout() {
         }
     }, [])
 
+  
+  
+
     return (
-        <>
+        <>    
             {loading ? <Loading /> : null}
             <div onClick={() => { setDropDownDisplay("hidden") }} className='overflow-hidden scrollbar-hide '>
                 <Slider />
@@ -63,7 +69,7 @@ function Layout() {
                     }
                 </div>
             </div>
-            <Footer/> 
+            <Footer />
         </>
 
     )

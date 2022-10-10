@@ -43,7 +43,7 @@ export const BlogProvider = ({ children }) => {
 
     //Toast_Controll
     const [toastControll, setToastControll] = useState(false)
-    const [toastMessage, setToastMessage] = useState(false)
+    const [toastMessage, setToastMessage] = useState("")
 
     //Loading_Controll
     const [loading, setLoading] = useState(false)

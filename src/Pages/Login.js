@@ -61,8 +61,12 @@ function Login() {
             localStorage.setItem("currentUserName", result.data.firstName)
             localStorage.setItem("currentUserId", result.data.id)
             navigate("/")
+        }).catch(err =>{
+            console.log(err)
+            window.alert(err)
         })
     }
+    
 
     const handleLogin = async () => {
         getTokenData()
@@ -82,7 +86,7 @@ function Login() {
                     <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="password">
                         Password
                     </label>
-                    <input value={password} name='password' onChange={(e) => { setPassword(e.target.value) }} className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" id="password" type="password" placeholder="******************" />
+                    <input value={password} name='password' onChange={(e) => {setPassword(e.target.value) }} className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" id="password" type="password" placeholder="******************" />
                     <p className="text-red text-xs italic">Please choose a password.</p>
                 </div>
                 <div className="flex items-center justify-between">

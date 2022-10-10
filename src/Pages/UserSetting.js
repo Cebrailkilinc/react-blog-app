@@ -1,13 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import InfoSetting from "./InfoSetting";
 import PasswordSetting from "./PasswordSetting";
-
+import BlogContext from "../Context/BlogContext";
+var bcrypt = require('bcryptjs');
 
 function UserSetting() {
 
   const { userId } = useParams()
+   const {currentuser, setCurrentUser} = useContext(BlogContext)
+   var hash = bcrypt.hashSync('12345678', 8);
+   
+  console.log(hash)
+  console.log(currentuser.password)
+
 
   const [nickname, setNickname] = useState("")
   const [firstName, setFirstName] = useState("")
@@ -20,8 +27,17 @@ function UserSetting() {
   const [settingControll, setSettigControll] = useState(false);
   const [formInfoAlertControll, setFormInfoAlertControll] = useState(false);
 
+  
+  if (currentuser.password == hash ) {
+    window.alert("sdfasdfk")
+  }
+
   const config = {
-    headers: { Authorization: `Bearer ${localStorage.getItem("tokenKey")}` }
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("tokenKey")}`,
+      'Content-Type': 'text/plain'
+    }
+
   };
 
   const getUserDetail = () => {
@@ -46,10 +62,6 @@ function UserSetting() {
     username: nickname
   }
 
-
-
-
-
   //Update userInfo
   const updateUserInfo = () => {
     localStorage.setItem("currentUserName", firstName)
@@ -61,18 +73,10 @@ function UserSetting() {
     setSettigControll(settingControll === true ? false : true)
   }
 
-
-  const userPasswordData = {
-    headers: {
-      'Content-Length': 0,
-      'Content-Type': 'text/plain'
-    }
-  };
-
   // update password
   const updatePasswordInfo = () => {
     console.log("password working...!")
-    axios.put('http://localhost:5000/api/users/change/' + userId, password, userPasswordData, config)
+    axios.put('http://localhost:5000/api/users/change/' + userId, newPassword ,config)
       .then(result => console.log(result.data))
   }
 
