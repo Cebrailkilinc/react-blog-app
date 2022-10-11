@@ -10,6 +10,7 @@ import { AiFillDelete } from "react-icons/ai"
 import Loading from '../Components/Loading'
 import toast, { Toaster } from 'react-hot-toast';
 import CommentEdit from './CommentEdit'
+import LİkeList from './LİkeList'
 
 
 function Post() {
@@ -27,6 +28,7 @@ function Post() {
   const [updateComment, setUpdateComment] = useState(false)
   const [commentById, setCommentById] = useState("")
   const [postCommentId, setPostCommentId] = useState("")
+  const [likeListControll, setLikeListControll] = useState(false)
 
 
 
@@ -38,13 +40,11 @@ function Post() {
     onTop()
   }, [])
 
+  //Toast controll
   const notifySuccess = () => {
     toast.success("Yorum başarı ile eklendi!")
   }
-
   const notifyError = () => toast.error("İşlem maalesef gerçekleştirilemedi !")
-
-
   const config = {
     headers: { Authorization: `Bearer ${localStorage.getItem("tokenKey")}` }
   };
@@ -85,6 +85,14 @@ function Post() {
         setNumberOfLike(numberOfLike - 1)
         setLikeOfPost([...likesOfPost])
       }).finally(() => setLikeButtonControll(true))
+  }
+
+  const handleLikeList = async () => {   
+    setLikeListControll(true)
+    await axios.post("http://localhost:5000/api/comments/edit/" + postCommentId, commentById, config)
+      .then(result => {
+        console.log(result.data)      
+      }) 
   }
 
   useEffect(() => {
@@ -162,7 +170,6 @@ function Post() {
   // Comment accordion controll
   const handleComment = (e) => {
     e.preventDefault()
-    console.log("deneme")
     if (commentAccordion === "h-36") {
       setCommentAccordion(" ")
     } else {
@@ -193,7 +200,7 @@ function Post() {
       <Toaster position="top-center" reverseOrder={false} />
       <div className='pb-10'>
         <div className='flex justify-center'>
-          <div className='w-80 md:w-2/3 border  mt-10'>
+          <div className='w-11/12 md:w-2/3 border  mt-10'>
             <div className='flex items-center justify-between gap-x-2 p-5 font-cinzel border-b'>
               <div className='flex items-center gap-x-2'>
                 <img className='w-9 h-9 rounded-full cursor-pointer hover:opacity-80' src='https://picsum.photos/200' />
@@ -209,11 +216,11 @@ function Post() {
             <div className='px-5 py-3 flex gap-5 items-center'>
               <div className='flex items-center gap-2'>
                 {likeButtonControll ? <BsHeart className='transition ease-in-out delay-150 hover:-translate-y-0.5 hover:scale-100  duration-300  cursor-pointer hover:opacity-50' onClick={handleLikePost} size={20} /> : <BsFillHeartFill className='transition ease-in-out delay-150 hover:-translate-y-0.5 hover:scale-100  duration-300  cursor-pointer hover:opacity-50' color='red' onClick={handleLikeDelete} size={20} />}
-                <span className='text-sm font-semibold'>{numberOfLike} beğeni</span>
+                <span onClick={handleLikeList} className='text-sm font-semibold cursor-pointer hover:opacity-70'>{numberOfLike} like </span>
               </div>
               <div className='flex items-center gap-2'>
                 <VscComment color='blue' className='transition ease-in-out delay-150 hover:-translate-y-0.5 hover:scale-100  duration-300 cursor-pointer hover:opacity-50 ' onClick={handleComment} size={23} />
-                <span className='text-sm font-semibold'>{commentOfUser.length} yorum</span>
+                <span className='text-sm font-semibold hover:opacity-70 cursor-pointer'>{commentOfUser.length} comment</span>
               </div>
             </div>
             <div className={`p-5 bg-white ${commentAccordion} overflow-hidden font-thin`}>
@@ -261,6 +268,7 @@ function Post() {
         </div>
       </div>
       {updateComment ? <CommentEdit commentUpdate={commentUpdate} setCommentById={setCommentById} commentById={commentById} setUpdateComment={setUpdateComment} /> : ""}
+      {likeListControll ? <LİkeList  setLikeListControll={ setLikeListControll} handleLikeList={ handleLikeList} /> : ""}
     </>
   )
 }

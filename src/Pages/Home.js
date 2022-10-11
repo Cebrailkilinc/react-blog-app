@@ -6,7 +6,6 @@ import axios from 'axios'
 import Loading from '../Components/Loading'
 import Marquees from '../Components/Marquees'
 import Footer from '../Components/Footer'
-import ToastMessage from '../Components/ToastMessage'
 import { useNavigate } from 'react-router-dom'
 
 
@@ -25,7 +24,6 @@ function Layout() {
     const config = {
         headers: { Authorization: `Bearer ${localStorage.getItem("tokenKey")}` }
     };
-
 
     //Loading_Page
     useEffect(() => {
@@ -51,9 +49,6 @@ function Layout() {
             }).catch(err => console.log(err))
         }
     }, [])
-
-  
-  
 
     return (
         <>    

@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io"
 function CommentEdit(props) {
 
     return (
-        <div className="  bg-black bg-opacity-90  fixed inset-0 z-50   ">
+        <div className="  bg-black bg-opacity-40  fixed inset-0 z-50   ">
             <div className="flex h-screen justify-center items-center border shadow-sm ">
                 <div className=" flex flex-col  bg-sky-100 py-3 px-5 border-2 ">
                     <div className='flex items-center justify-between' >

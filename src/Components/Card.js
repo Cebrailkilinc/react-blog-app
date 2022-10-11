@@ -11,6 +11,7 @@ function Card({ username, head, description, postId, lastName, firstName, postCr
     const {
         currentuser, setCurrentUser
     } = useContext(BlogContext)
+   
 
     //current id: console.log(currentuser.id)
     return (
@@ -22,7 +23,7 @@ function Card({ username, head, description, postId, lastName, firstName, postCr
                 <div className='flex items-center justify-between mb-4 font-thin'>
                     <span className='text-lg cursor-pointer hover:opacity-80 h-8 w-full text-center overflow-hidden'>{head}</span>
                 </div>
-                <Link to={localStorage.getItem("nickname") ? `/post/${postId}` : "/login"}><p className='cursor-pointer   hover:opacity-80 font-thin text-xs' >{description}</p></Link>
+                <Link to={localStorage.getItem("nickname") != null ? `/post/${postId}` : "/login"}><p className='cursor-pointer   hover:opacity-80 font-thin text-xs' >{description}</p></Link>
             </div>
             <div className='px-5 py-2 bottom-0 flex items-center justify-between'>
                 <div className='flex items-center gap-x-4'>

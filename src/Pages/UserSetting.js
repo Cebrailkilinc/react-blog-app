@@ -10,10 +10,7 @@ function UserSetting() {
 
   const { userId } = useParams()
    const {currentuser, setCurrentUser} = useContext(BlogContext)
-   var hash = bcrypt.hashSync('12345678', 8);
-   
-  console.log(hash)
-  console.log(currentuser.password)
+
 
 
   const [nickname, setNickname] = useState("")
@@ -24,13 +21,8 @@ function UserSetting() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [settingControll, setSettigControll] = useState(false);
+  const [settingControll, setSettingControll] = useState(false);
   const [formInfoAlertControll, setFormInfoAlertControll] = useState(false);
-
-  
-  if (currentuser.password == hash ) {
-    window.alert("sdfasdfk")
-  }
 
   const config = {
     headers: {
@@ -70,7 +62,7 @@ function UserSetting() {
       .then(result => console.log(result))
   }
   const handleSettingChange = () => {
-    setSettigControll(settingControll === true ? false : true)
+    setSettingControll(settingControll === true ? false : true)
   }
 
   // update password

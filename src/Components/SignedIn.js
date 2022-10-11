@@ -33,7 +33,7 @@ function SignedIn() {
         <>
             <div className='flex items-center' >
                 <div onClick={handleDropDownDisplay} className='font-serif mr-3 cursor-pointer flex'>
-                    <span className='font-cinzel'>{localStorage.getItem("currentUserName")}</span>
+                    <span className='font-cinzel hover:text-indigo-300'>{localStorage.getItem("currentUserName")}</span>
                 </div>
                 <img className='w-8 h-8 rounded-full ' src='https://picsum.photos/200' />
             </div>

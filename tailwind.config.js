@@ -8,6 +8,11 @@ module.exports = {
       fontFamily:{
         cinzel:['Cinzel', "serif"],
         radjani:['Ibarra Real Nova', "serif"]
+      },
+      fontSize: {
+        xxs: '0.6rem',
+    
+    
       }
     },
   },
